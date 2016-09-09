@@ -1,6 +1,6 @@
 {
-  "name": "rabbitmq-manager",
-  "version": "0.0.1",
+  "name": "http-rabbitmq-manager",
+  "version": "0.0.2",
   "description": "RabbitMQ HTTP API client",
   "main": "index.js",
   "scripts": {

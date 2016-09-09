@@ -14,7 +14,7 @@ All versions require [RabbitMQ Management UI plugin](http://www.rabbitmq.com/man
 ## Installation
 
 ```
-npm install rabbitmq-manager
+npm install http-rabbitmq-manager
 ```
 
 
@@ -25,7 +25,7 @@ npm install rabbitmq-manager
 Create a client instance
 
 ``` js
-	var client = require('rabbitmq-manager').client({
+	var client = require('http-rabbitmq-manager').client({
 		host : 'localhost',
     	port : 15672,
   		timeout : 25000,
