@@ -1,0 +1,15 @@
+{
+  "name": "rabbitmq-manager",
+  "version": "0.0.1",
+  "description": "RabbitMQ HTTP API client",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+      
+  },
+  "repository": "",
+  "author": "Cosmin Crecana <cosmincrecana@gmail.com>",
+  "license": "BSD"
+}
