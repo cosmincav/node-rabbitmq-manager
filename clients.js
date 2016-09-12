@@ -24,7 +24,7 @@ module.exports = {
 					var obj;
 					try {
 				        obj = JSON.parse(body);
-				        _cb(null, body);
+				        _cb(null, obj);
 				    } catch(e) {
 				        _cb(null, {result : 'Success'});
 				    }
@@ -68,7 +68,7 @@ module.exports = {
 					var obj;
 					try {
 				        obj = JSON.parse(body);
-				        _cb(null, body);
+				        _cb(null, obj);
 				    } catch(e) {
 				        _cb(null, {result : 'Success'});
 				    }
@@ -118,7 +118,7 @@ module.exports = {
 					var obj;
 					try {
 				        obj = JSON.parse(body);
-				        _cb(null, body);
+				        _cb(null, obj);
 				    } catch(e) {
 				        _cb(null, {result : 'Success'});
 				    }
@@ -164,7 +164,7 @@ module.exports = {
 					var obj;
 					try {
 				        obj = JSON.parse(body);
-				        _cb(null, body);
+				        _cb(null, obj);
 				    } catch(e) {
 				        _cb(null, {result : 'Success'});
 				    }
