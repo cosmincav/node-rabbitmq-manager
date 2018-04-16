@@ -27,7 +27,7 @@ var Client = function(config) {
 	var options = {
 		host : config.host || 'localhost',
 		port : config.port || 15672, 
-		auth : (config.guest || 'guest') + ':' + (config.password || 'guest'),
+		auth : (config.user || 'guest') + ':' + (config.password || 'guest'),
 		headers:{
         	"content-type" : "application/json"
         }
