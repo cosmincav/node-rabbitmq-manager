@@ -172,8 +172,9 @@ Client.prototype.getChannel = function(body, _cb) {
 
 Client.prototype.listConsumers = function(body, _cb) {
 	var path = '/api/consumers'
-	if (body && body.vhost) {
-		path += '/' + encodeURIComponent(body.vhost)
+	if (body) {
+		if (body.vhost) path += '/' + encodeURIComponent(body.vhost)
+		if (body.query) path += `?${formUrlencoded(body.query)}`
 	}
 	this.getClient.makeRequest(path, _cb)
 }
