@@ -25,7 +25,7 @@ var Client = function (config) {
 	var timeout = config.timeout || 25000;
 
 	var options = {
-		https: false,
+		https: config.https || false,
 		host: config.host || 'localhost',
 		port: config.port || 15672,
 		auth: (config.user || 'guest') + ':' + (config.password || 'guest'),
