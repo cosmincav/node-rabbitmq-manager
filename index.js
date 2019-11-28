@@ -12,27 +12,28 @@ var httpClients = require('./clients.js');
  *   });
  **/
 
-exports.client = function(config) {
+exports.client = function (config) {
 	config = config || {};
 	return new Client(config);
 }
 
 
-var Client = function(config) {
+var Client = function (config) {
 
 	/* Use timeout for http requests */
 
 	var timeout = config.timeout || 25000;
 
 	var options = {
-		host : config.host || 'localhost',
-		port : config.port || 15672, 
-		auth : (config.user || 'guest') + ':' + (config.password || 'guest'),
-		headers:{
-        	"content-type" : "application/json"
-        }
+		https: false,
+		host: config.host || 'localhost',
+		port: config.port || 15672,
+		auth: (config.user || 'guest') + ':' + (config.password || 'guest'),
+		headers: {
+			"content-type": "application/json"
+		}
 	}
-	
+
 	this.getClient = new httpClients.getClient(options, timeout);
 	this.putClient = new httpClients.putClient(options, timeout);
 	this.postClient = new httpClients.postClient(options, timeout);
@@ -41,39 +42,39 @@ var Client = function(config) {
 
 
 /* Cluster methods */
-Client.prototype.overview = function(_cb) {
+Client.prototype.overview = function (_cb) {
 	var path = '/api/overview';
 	this.getClient.makeRequest(path, _cb);
 };
 
-Client.prototype.getClusterName = function(_cb) {
+Client.prototype.getClusterName = function (_cb) {
 	var path = '/api/cluster-name';
 	this.getClient.makeRequest(path, _cb);
 }
 
-Client.prototype.setClusterName = function(body, _cb) {
+Client.prototype.setClusterName = function (body, _cb) {
 	var path = '/api/cluster-name';
 	if (!body || !body.name) {
 		_cb({
-			message : "Name not provided"
+			message: "Name not provided"
 		});
 		return;
 	}
-	this.putClient.makeRequest(path, {name : body.name}, _cb);
+	this.putClient.makeRequest(path, { name: body.name }, _cb);
 }
 
 
 /* Nodes methods */
-Client.prototype.listNodes = function(_cb) {
+Client.prototype.listNodes = function (_cb) {
 	var path = '/api/nodes';
 	this.getClient.makeRequest(path, _cb);
 }
 
-Client.prototype.getNode = function(body, _cb) {
+Client.prototype.getNode = function (body, _cb) {
 	var path = '/api/nodes/';
 	if (!body || !body.name) {
-		_cb ({
-			message : "Node name not provided"
+		_cb({
+			message: "Node name not provided"
 		});
 		return;
 	}
@@ -84,39 +85,39 @@ Client.prototype.getNode = function(body, _cb) {
 	this.getClient.makeRequest(path, _cb);
 }
 
-Client.prototype.listExtensions = function(_cb) {
+Client.prototype.listExtensions = function (_cb) {
 	var path = '/api/extensions';
 	this.getClient.makeRequest(path, _cb);
 }
 
 /* Definitions */
-Client.prototype.listDefinitions = function(_cb) {
+Client.prototype.listDefinitions = function (_cb) {
 	var path = '/api/definitions';
 	this.getClient.makeRequest(path, _cb);
 }
 
-Client.prototype.setDefinitions = function(body, _cb) {
+Client.prototype.setDefinitions = function (body, _cb) {
 	var path = '/api/definitions';
 	if (!body || !body.definition) {
 		_cb({
-			message : 'Definition not provided'
+			message: 'Definition not provided'
 		});
 		return;
 	}
-	this.postClient.makeRequest(path, {file : body.definition}, _cb);
+	this.postClient.makeRequest(path, { file: body.definition }, _cb);
 }
 
 /* Connections */
-Client.prototype.listConnections = function(_cb) {
+Client.prototype.listConnections = function (_cb) {
 	var path = '/api/connections';
 	this.getClient.makeRequest(path, _cb);
 }
 
-Client.prototype.getConnection = function(body, _cb) {
+Client.prototype.getConnection = function (body, _cb) {
 	var path = '/api/connections/';
 	if (!body || !body.connection) {
-		_cb ({
-			message : "Connection name not provided"
+		_cb({
+			message: "Connection name not provided"
 		});
 		return;
 	}
@@ -124,11 +125,11 @@ Client.prototype.getConnection = function(body, _cb) {
 	this.getClient.makeRequest(path, _cb);
 }
 
-Client.prototype.closeConnection = function(body, _cb) {
+Client.prototype.closeConnection = function (body, _cb) {
 	var path = '/api/connections/';
 	if (!body || !body.connection) {
-		_cb ({
-			message : "Connection name not provided"
+		_cb({
+			message: "Connection name not provided"
 		});
 		return;
 	}
@@ -142,7 +143,7 @@ Client.prototype.closeConnection = function(body, _cb) {
  * If body.connection is defined get all open channels from certain connection
  */
 
-Client.prototype.listChannels = function(body, _cb) {
+Client.prototype.listChannels = function (body, _cb) {
 	var path = '/api/channels';
 
 	if (body && body.vhost) {
@@ -156,11 +157,11 @@ Client.prototype.listChannels = function(body, _cb) {
 }
 
 
-Client.prototype.getChannel = function(body, _cb) {
+Client.prototype.getChannel = function (body, _cb) {
 	var path = '/api/channels/';
 	if (!body || !body.channel) {
-		_cb ({
-			message : "Channel name not provided"
+		_cb({
+			message: "Channel name not provided"
 		});
 		return;
 	}
@@ -169,7 +170,7 @@ Client.prototype.getChannel = function(body, _cb) {
 	this.getClient.makeRequest(path, _cb);
 }
 
-Client.prototype.listConsumers = function(body, _cb) {
+Client.prototype.listConsumers = function (body, _cb) {
 	var path = '/api/consumers';
 	if (body && body.vhost) {
 		path += '/' + encodeURIComponent(body.vhost);
@@ -179,7 +180,7 @@ Client.prototype.listConsumers = function(body, _cb) {
 
 
 /* Exchanges */
-Client.prototype.listExchanges = function(body, _cb) {
+Client.prototype.listExchanges = function (body, _cb) {
 	var path = '/api/exchanges';
 	if (body && body.vhost) {
 		path += '/' + encodeURIComponent(body.vhost);
@@ -187,16 +188,16 @@ Client.prototype.listExchanges = function(body, _cb) {
 	this.getClient.makeRequest(path, _cb);
 }
 
-Client.prototype.getExchange = function(body, _cb) {
+Client.prototype.getExchange = function (body, _cb) {
 	if (!body || !body.vhost) {
 		_cb({
-			message : "Vhost name not provided"
+			message: "Vhost name not provided"
 		});
 		return;
 	}
 	if (!body.exchange) {
 		_cb({
-			message : "Exchange name not provided"
+			message: "Exchange name not provided"
 		});
 		return;
 	}
@@ -204,46 +205,46 @@ Client.prototype.getExchange = function(body, _cb) {
 	this.getClient.makeRequest(path, _cb);
 }
 
-Client.prototype.createExchange = function(body, _cb) {
+Client.prototype.createExchange = function (body, _cb) {
 	if (!body || !body.vhost) {
 		_cb({
-			message : "Vhost not provided"
+			message: "Vhost not provided"
 		});
 		return;
 	}
 	if (!body.exchange) {
 		_cb({
-			message : "Exchange name not provided"
+			message: "Exchange name not provided"
 		});
 		return;
 	}
 	if (!body.type) {
 		_cb({
-			message : "Exchange type not provided"
+			message: "Exchange type not provided"
 		});
 		return;
 	}
 	var put_body = {
-		type : body.type,
-		auto_delete : body.auto_delete,
-		durable : body.durable,
-		internal : body.internal,
-		arguments : body.arguments
+		type: body.type,
+		auto_delete: body.auto_delete,
+		durable: body.durable,
+		internal: body.internal,
+		arguments: body.arguments
 	}
 	var path = '/api/exchanges/' + encodeURIComponent(body.vhost) + '/' + encodeURIComponent(body.exchange);
 	this.putClient.makeRequest(path, put_body, _cb);
 }
 
-Client.prototype.deleteExchange = function(body, _cb) {
+Client.prototype.deleteExchange = function (body, _cb) {
 	if (!body || !body.vhost) {
 		_cb({
-			message : "Vhost name not provided"
+			message: "Vhost name not provided"
 		});
 		return;
 	}
 	if (!body.exchange) {
 		_cb({
-			message : "Exchange name not provided"
+			message: "Exchange name not provided"
 		});
 		return;
 	}
@@ -251,16 +252,16 @@ Client.prototype.deleteExchange = function(body, _cb) {
 	this.deleteClient.makeRequest(path, _cb);
 }
 
-Client.prototype.getBindingsForSource = function(body, _cb) {
+Client.prototype.getBindingsForSource = function (body, _cb) {
 	if (!body || !body.vhost) {
 		_cb({
-			message : "Vhost name not provided"
+			message: "Vhost name not provided"
 		});
 		return;
 	}
 	if (!body.exchange) {
 		_cb({
-			message : "Exchange name not provided"
+			message: "Exchange name not provided"
 		});
 		return;
 	}
@@ -269,16 +270,16 @@ Client.prototype.getBindingsForSource = function(body, _cb) {
 	this.getClient.makeRequest(path, _cb);
 }
 
-Client.prototype.getBindingsForDestination = function(body, _cb) {
+Client.prototype.getBindingsForDestination = function (body, _cb) {
 	if (!body || !body.vhost) {
 		_cb({
-			message : "Vhost name not provided"
+			message: "Vhost name not provided"
 		});
 		return;
 	}
 	if (!body.exchange) {
 		_cb({
-			message : "Exchange name not provided"
+			message: "Exchange name not provided"
 		});
 		return;
 	}
@@ -286,38 +287,38 @@ Client.prototype.getBindingsForDestination = function(body, _cb) {
 	this.getClient.makeRequest(path, _cb);
 }
 
-Client.prototype.publishMessage = function(body, _cb) {
+Client.prototype.publishMessage = function (body, _cb) {
 	if (!body || !body.vhost) {
 		_cb({
-			message : "Vhost name not provided"
+			message: "Vhost name not provided"
 		});
 		return;
 	}
 	if (!body.exchange) {
 		_cb({
-			message : "Exchange name not provided"
+			message: "Exchange name not provided"
 		});
 		return;
 	}
 	if (!body.properties || !body.routing_key || !body.payload || !body.payload_encoding) {
 		_cb({
-			message : "Body missing mandatory field: properties, routing_key, payload, payload_encoding"
+			message: "Body missing mandatory field: properties, routing_key, payload, payload_encoding"
 		});
 		return;
 	}
 	var path = '/api/exchanges/' + encodeURIComponent(body.vhost) + '/' + encodeURIComponent(body.exchange) + '/bindings/destination';
 	var post_body = {
-		properties : body.properties,
-		routing_key : body.routing_key,
-		payload : body.payload,
-		payload_encoding : body.payload_encoding
+		properties: body.properties,
+		routing_key: body.routing_key,
+		payload: body.payload,
+		payload_encoding: body.payload_encoding
 	}
 	this.postClient.makeRequest(path, post_body, _cb);
 }
 
 /* Queues */
 
-Client.prototype.listQueues = function(body, _cb) {
+Client.prototype.listQueues = function (body, _cb) {
 	var path = '/api/queues';
 	if (body && body.vhost) {
 		path += '/' + encodeURIComponent(body.vhost);
@@ -326,21 +327,21 @@ Client.prototype.listQueues = function(body, _cb) {
 }
 
 
-var checkQueueParams = function(body) {
+var checkQueueParams = function (body) {
 	if (!body || !body.vhost) {
 		return {
-			message : "Vhost not provided"
+			message: "Vhost not provided"
 		};
 	}
 	if (!body.queue) {
 		return {
-			message : "Queue not provided"
+			message: "Queue not provided"
 		};
 	}
 	return null;
 }
 
-Client.prototype.getQueue = function(body, _cb) {
+Client.prototype.getQueue = function (body, _cb) {
 	var err = checkQueueParams(body);
 	if (err) {
 		_cb(err);
@@ -351,7 +352,7 @@ Client.prototype.getQueue = function(body, _cb) {
 	this.getClient.makeRequest(path, _cb);
 }
 
-Client.prototype.createQueue = function(body, _cb) {
+Client.prototype.createQueue = function (body, _cb) {
 	var err = checkQueueParams(body);
 	if (err) {
 		_cb(err);
@@ -359,15 +360,15 @@ Client.prototype.createQueue = function(body, _cb) {
 	}
 	var path = '/api/queues/' + encodeURIComponent(body.vhost) + '/' + encodeURIComponent(body.queue);
 	var put_body = {
-		auto_delete : body.auto_delete,
-		durable : body.durable,
-		node : body.node,
-		arguments : body.arguments
+		auto_delete: body.auto_delete,
+		durable: body.durable,
+		node: body.node,
+		arguments: body.arguments
 	}
 	this.putClient.makeRequest(path, put_body, _cb);
 }
 
-Client.prototype.deleteQueue = function(body, _cb) {
+Client.prototype.deleteQueue = function (body, _cb) {
 	var err = checkQueueParams(body);
 	if (err) {
 		_cb(err);
@@ -377,7 +378,7 @@ Client.prototype.deleteQueue = function(body, _cb) {
 	this.deleteClient.makeRequest(path, _cb);
 }
 
-Client.prototype.getQueueBindings = function(body, _cb) {
+Client.prototype.getQueueBindings = function (body, _cb) {
 	var err = checkQueueParams(body);
 	if (err) {
 		_cb(err);
@@ -387,7 +388,7 @@ Client.prototype.getQueueBindings = function(body, _cb) {
 	this.getClient.makeRequest(path, _cb);
 }
 
-Client.prototype.purgeQueue = function(body, _cb) {
+Client.prototype.purgeQueue = function (body, _cb) {
 	var err = checkQueueParams(body);
 	if (err) {
 		_cb(err);
@@ -397,7 +398,7 @@ Client.prototype.purgeQueue = function(body, _cb) {
 	this.deleteClient.makeRequest(path, _cb);
 }
 
-Client.prototype.setQueueActions = function(body, _cb) {
+Client.prototype.setQueueActions = function (body, _cb) {
 	var err = checkQueueParams(body);
 	if (err) {
 		_cb(err);
@@ -405,39 +406,39 @@ Client.prototype.setQueueActions = function(body, _cb) {
 	}
 	if (!body.action) {
 		_cb({
-			message : "Action is missing"
+			message: "Action is missing"
 		});
 		return;
 	}
 	var path = '/api/queues/' + encodeURIComponent(body.vhost) + '/' + encodeURIComponent(body.queue) + '/actions';
-	this.postClient.makeRequest(path, {action : body.action}, _cb);
+	this.postClient.makeRequest(path, { action: body.action }, _cb);
 }
 
-Client.prototype.getMessages = function(body, _cb) {
+Client.prototype.getMessages = function (body, _cb) {
 	var err = checkQueueParams(body);
 	if (err) {
 		_cb(err);
 		return;
 	}
-	if (!body.count || !body.requeue || !body.encoding ) {
+	if (!body.count || !body.requeue || !body.encoding) {
 		_cb({
-			message : "Body missing mandatory field: count, requeue, encoding"
+			message: "Body missing mandatory field: count, requeue, encoding"
 		});
 		return;
 	}
 
 	var path = '/api/queues/' + encodeURIComponent(body.vhost) + '/' + encodeURIComponent(body.queue) + '/get';
 	var post_body = {
-		count : body.count,
-		requeue : body.requeue,
-		encoding : body.encoding,
-		truncate : body.truncate
+		count: body.count,
+		requeue: body.requeue,
+		encoding: body.encoding,
+		truncate: body.truncate
 	}
 	this.postClient.makeRequest(path, post_body, _cb);
 }
 
 /* Bindings */
-Client.prototype.listBindings = function(body, _cb) {
+Client.prototype.listBindings = function (body, _cb) {
 	var path = '/api/bindings';
 	if (body && body.vhost) {
 		path += '/' + encodeURIComponent(body.vhost);
@@ -446,7 +447,7 @@ Client.prototype.listBindings = function(body, _cb) {
 }
 
 /*Vhosts */
-Client.prototype.listVhosts = function(body, _cb) {
+Client.prototype.listVhosts = function (body, _cb) {
 	var path = '/api/vhosts';
 	if (body && body.vhost) {
 		path += '/' + encodeURIComponent(body.vhost);
@@ -454,11 +455,11 @@ Client.prototype.listVhosts = function(body, _cb) {
 	this.getClient.makeRequest(path, _cb);
 }
 
-Client.prototype.deleteVhost = function(body, _cb) {
+Client.prototype.deleteVhost = function (body, _cb) {
 	var path = '/api/vhosts';
 	if (!body || !body.vhost) {
 		_cb({
-			message : "Vhost name is missing"
+			message: "Vhost name is missing"
 		});
 		return;
 	}
@@ -466,11 +467,11 @@ Client.prototype.deleteVhost = function(body, _cb) {
 	this.deleteClient.makeRequest(path, _cb);
 }
 
-Client.prototype.createVhost = function(body, _cb) {
+Client.prototype.createVhost = function (body, _cb) {
 	var path = '/api/vhosts';
 	if (!body || !body.vhost) {
 		_cb({
-			message : "Vhost name is missing"
+			message: "Vhost name is missing"
 		});
 		return;
 	}
@@ -478,11 +479,11 @@ Client.prototype.createVhost = function(body, _cb) {
 	this.putClient.makeRequest(path, {}, _cb);
 }
 
-Client.prototype.getVhostPermissions = function(body, _cb) {
+Client.prototype.getVhostPermissions = function (body, _cb) {
 	var path = '/api/vhosts';
 	if (!body || !body.vhost) {
 		_cb({
-			message : "Vhost name is missing"
+			message: "Vhost name is missing"
 		});
 		return;
 	}

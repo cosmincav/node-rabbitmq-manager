@@ -26,6 +26,7 @@ Create a client instance
 
 ``` js
 	var client = require('http-rabbitmq-manager').client({
+		https: false,
 		host : 'localhost',
     	port : 15672,
   		timeout : 25000,
