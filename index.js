@@ -25,14 +25,15 @@ var Client = function(config) {
 	var timeout = config.timeout || 25000;
 
 	var options = {
-		host : config.host || 'localhost',
-		port : config.port || 15672, 
-		auth : (config.user || 'guest') + ':' + (config.password || 'guest'),
-		headers:{
-        	"content-type" : "application/json"
-        }
+		https: config.https || false,
+		host: config.host || 'localhost',
+		port: config.port || 15672,
+		auth: (config.user || 'guest') + ':' + (config.password || 'guest'),
+		headers: {
+			"content-type": "application/json"
+		}
 	}
-	
+
 	this.getClient = new httpClients.getClient(options, timeout);
 	this.putClient = new httpClients.putClient(options, timeout);
 	this.postClient = new httpClients.postClient(options, timeout);
