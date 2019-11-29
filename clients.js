@@ -9,7 +9,13 @@ module.exports = {
 
 		this.makeRequest = function(path, _cb) {
 			this.options.path = path;
-			var req = http.get(this.options, function(res) {
+
+			var httpCli = http;
+			if(this.options.https == true){
+				httpCli = require('https');
+			}
+
+			var req = httpCli.get(this.options, function(res) {
 				var body = '';
 				res.on('data', function(chunk) {
 					body += chunk;
@@ -53,7 +59,12 @@ module.exports = {
 
 		this.makeRequest = function(path, put_body, _cb) {
 			this.options.path = path;
-			var req = http.request(this.options, function(res) {
+			
+			var httpCli = http;
+			if(this.options.https == true){
+				httpCli = require('https');
+			}
+			var req = httpCli.request(this.options, function(res) {
 				var body = '';
 				res.on('data', function(chunk) {
 					body += chunk;
@@ -103,7 +114,15 @@ module.exports = {
 			this.options.path = path;
 			var postData = JSON.stringify(post_body);
 			this.options.headers['Content-Length'] = postData.length;
-			var req = http.request(this.options, function(res) {
+
+
+			
+			var httpCli = http;
+			if(this.options.https == true){
+				httpCli = require('https');
+			}
+
+			var req = httpCli.request(this.options, function(res) {
 				var body = '';
 				res.on('data', function(chunk) {
 					body += chunk;
@@ -149,7 +168,13 @@ module.exports = {
 
 		this.makeRequest = function(path, _cb) {
 			this.options.path = path;
-			var req = http.request(this.options, function(res) {
+			
+		
+			var httpCli = http;
+			if(this.options.https == true){
+				httpCli = require('https');
+			}
+			var req = httpCli.request(this.options, function(res) {
 				var body = '';
 				res.on('data', function(chunk) {
 					body += chunk;
